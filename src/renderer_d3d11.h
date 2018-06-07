@@ -159,6 +159,9 @@ namespace bgfx { namespace d3d11
 
 		union
 		{
+			ID3D11DomainShader* m_domainShader;
+			ID3D11HullShader* m_hullShader;
+			ID3D11GeometryShader* m_geometryShader;
 			ID3D11ComputeShader* m_computeShader;
 			ID3D11PixelShader*   m_pixelShader;
 			ID3D11VertexShader*  m_vertexShader;

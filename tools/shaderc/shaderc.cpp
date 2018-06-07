@@ -1032,6 +1032,18 @@ namespace bgfx
 			preprocessor.setDefine("BGFX_SHADER_TYPE_VERTEX=1");
 			break;
 
+		case 'g':
+			preprocessor.setDefine("BGFX_SHADER_TYPE_GEOMETRY=1");
+			break;
+
+		case 'd':
+			preprocessor.setDefine("BGFX_SHADER_TYPE_DOMAIN=1");
+			break;
+
+		case 'h':
+			preprocessor.setDefine("BGFX_SHADER_TYPE_HULL=1");
+			break;
+
 		default:
 			fprintf(stderr, "Unknown type: %c?!", _options.shaderType);
 			return false;

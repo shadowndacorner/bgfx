@@ -2486,7 +2486,12 @@ namespace bgfx
 					ShaderHandle fsh;
 					_cmdbuf.read(fsh);
 
-					m_renderCtx->createProgram(handle, vsh, fsh);
+					ShaderHandle g, d, h;
+					g.idx = bx::kInvalidHandle;
+					h.idx = bx::kInvalidHandle;
+					d.idx = bx::kInvalidHandle;
+					
+					m_renderCtx->createProgram(handle, vsh, fsh, g, h, d);
 				}
 				break;
 

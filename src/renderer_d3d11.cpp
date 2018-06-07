@@ -1699,8 +1699,9 @@ namespace bgfx { namespace d3d11
 			m_shaders[_handle.idx].destroy();
 		}
 
-		void createProgram(ProgramHandle _handle, ShaderHandle _vsh, ShaderHandle _fsh) override
+		void createProgram(ProgramHandle _handle, ShaderHandle _vsh, ShaderHandle _fsh, ShaderHandle _gsh, ShaderHandle _hsh, ShaderHandle _dsh) override
 		{
+			// TODO: Geometry, hull, domain shaders
 			m_program[_handle.idx].create(&m_shaders[_vsh.idx], isValid(_fsh) ? &m_shaders[_fsh.idx] : NULL);
 		}
 
@@ -4086,6 +4087,9 @@ namespace bgfx { namespace d3d11
 
 		switch (magic)
 		{
+		//case BGFX_CHUNK_MAGIC_HSH:
+		//case BGFX_CHUNK_MAGIC_DSH:
+		case BGFX_CHUNK_MAGIC_GSH:
 		case BGFX_CHUNK_MAGIC_CSH:
 		case BGFX_CHUNK_MAGIC_FSH:
 		case BGFX_CHUNK_MAGIC_VSH:
@@ -4205,6 +4209,21 @@ namespace bgfx { namespace d3d11
 
 			DX_CHECK(s_renderD3D11->m_device->CreateVertexShader(code, shaderSize, NULL, &m_vertexShader) );
 			BGFX_FATAL(NULL != m_ptr, bgfx::Fatal::InvalidShader, "Failed to create vertex shader.");
+		}
+		else if (BGFX_CHUNK_MAGIC_GSH == magic)
+		{
+			DX_CHECK(s_renderD3D11->m_device->CreateGeometryShader(code, shaderSize, NULL, &m_geometryShader));
+			BGFX_FATAL(NULL != m_ptr, bgfx::Fatal::InvalidShader, "Failed to create geometry shader.");
+		}
+		else if (BGFX_CHUNK_MAGIC_DSH == magic)
+		{
+			DX_CHECK(s_renderD3D11->m_device->CreateDomainShader(code, shaderSize, NULL, &m_domainShader));
+			BGFX_FATAL(NULL != m_ptr, bgfx::Fatal::InvalidShader, "Failed to create domain shader.");
+		}
+		else if (BGFX_CHUNK_MAGIC_HSH == magic)
+		{
+			DX_CHECK(s_renderD3D11->m_device->CreateHullShader(code, shaderSize, NULL, &m_hullShader));
+			BGFX_FATAL(NULL != m_ptr, bgfx::Fatal::InvalidShader, "Failed to create hull shader.");
 		}
 		else
 		{
